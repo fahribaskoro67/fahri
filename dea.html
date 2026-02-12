@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Sayaaaaaaang 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fbe4ec, #f8d7e3, #f3c5d8);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    transition: all 0.6s ease;
+    animation: fadeIn 1s ease;
+}
+
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+    color: #b76e79;
+}
+
+p {
+    color: #555;
+    line-height: 1.6;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #e8a4b8, #d67c96);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.07);
+    box-shadow: 0 5px 15px rgba(214,124,150,0.4);
+}
+
+.fade-out {
+    opacity: 0;
+    transform: translateY(-15px);
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    color: #f8a5c2;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes floatUp {
+    from {transform: translateY(100vh); opacity: 1;}
+    to {transform: translateY(-10vh); opacity: 0;}
+}
+
+.glow {
+    animation: glowText 2s infinite alternate;
+}
+
+@keyframes glowText {
+    from {text-shadow: 0 0 5px #ffb6c1;}
+    to {text-shadow: 0 0 20px #ff69b4;}
+}
+
+.small-text {
+    font-size: 13px;
+    color: #b76e79;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <h1>Hai sayaaaaaaang 🤍</h1>
+    <p>Aku bikin ini khusus buat kamu...</p>
+    <button onclick="nextStep(question1)">Buka pelan-pelan ya ✨</button>
+</div>
+
+<script>
+
+const card = document.getElementById("card");
+let confirmLevel = 0;
+
+function nextStep(callback){
+    card.classList.add("fade-out");
+    setTimeout(() => {
+        callback();
+        card.classList.remove("fade-out");
+        card.classList.add("fade-in");
+    }, 500);
+}
+
+/* Pertanyaan 1 */
+function question1(){
+    card.innerHTML = `
+        <h2>Sayaaaaaaang…</h2>
+        <p>Maafin pasanganmu yang masih sering salah ini yaa 🤍<br>
+        Aku emang belum sempurna, tapi sayangnya ke kamu selalu full.</p>
+        <button onclick="nextStep(question2)">Iya 🤍</button>
+        <button onclick="showSoftMessage()">Enggak 😌</button>
+        <div id="softMsg" class="small-text"></div>
+    `;
+}
+
+function showSoftMessage(){
+    document.getElementById("softMsg").innerText =
+    "Masa sayaaaaaaang setega itu sih… aku kan cuma manusia yang lagi jatuh cinta banget 🥺";
+}
+
+/* Pertanyaan 2 */
+function question2(){
+    card.innerHTML = `
+        <h2>Kalau disuruh pilih…</h2>
+        <p>Mana yang paling kamu suka?</p>
+        <button onclick="wrongChoice(this)">Matcha 🍵</button>
+        <button onclick="wrongChoice(this)">Dimsum 🥟</button>
+        <button onclick="nextStep(question3)">Kamu 🤍</button>
+        <div id="softMsg" class="small-text"></div>
+    `;
+}
+
+function wrongChoice(btn){
+    btn.style.transform = "scale(0.9)";
+    document.getElementById("softMsg").innerText =
+    "Hmm… yakin bukan yang paling ganteng dan paling sayang kamu itu? 😌";
+}
+
+/* Pertanyaan 3 */
+function question3(){
+    card.innerHTML = `
+        <h2>Sayaaaaaaang… kamu beneran sayang sama aku kan? 🤍</h2>
+        <button onclick="confirmLove()">Iya</button>
+        <button onclick="moveButton(this)">Enggak</button>
+        <div id="softMsg" class="small-text"></div>
+    `;
+}
+
+function moveButton(btn){
+    btn.style.position = "absolute";
+    btn.style.top = Math.random() * 70 + "%";
+    btn.style.left = Math.random() * 70 + "%";
+    document.getElementById("softMsg").innerText =
+    "Kayaknya jari kamu salah pencet deh 😌";
+}
+
+function confirmLove(){
+    const messages = [
+        "Serius?",
+        "Gak bohong?",
+        "Yakin banget nih?"
+    ];
+
+    if(confirmLevel < messages.length){
+        document.getElementById("softMsg").innerText = messages[confirmLevel];
+        confirmLevel++;
+    } else {
+        nextStep(finalPage);
+    }
+}
+
+/* Halaman Akhir */
+function finalPage(){
+    card.innerHTML = `
+        <h1 class="glow">Untuk Sayaaaaaaang 🤍</h1>
+        <p>
+        Kamu itu definisi cantik versi aku.<br>
+        Tenang, lembut, manis, dan selalu bikin aku ngerasa pulang.<br><br>
+        Aku sayang kamu… bukan cuma hari ini.
+        </p>
+    `;
+    createHearts();
+}
+
+/* Animasi Hearts */
+function createHearts(){
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "🤍";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 6000);
+    }, 600);
+}
+
+</script>
+
+</body>
+</html>
